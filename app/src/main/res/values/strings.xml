@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Datashield Auth</string>
+    <string name="screen_login_text">FAÇA LOGIN COM O NÚMERO DO SEU CELULAR</string>
+    <string name="screen_login_button_entrar">ENTRAR</string>
+    <string name="screen_login_input_phone">55 11 987654321</string>
+    <string name="dialog_sms_title">Informe o código recebido por SMS:</string>
+    <string name="dialog_sms_placeholder">54321</string>
+    <string name="dialog_sms_bottom_text">O código somente pode ser usado uma vez.</string>
+    <string name="screen_token_number">79845</string>
+    <string name="screen_token_bottom_text">O token expira em: 20s</string>
+
+</resources>
