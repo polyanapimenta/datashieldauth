@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
-
-
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // components from main.xml
-        button = (Button) findViewById(R.id.button_signin);
-        result = (EditText) findViewById(R.id.input_user_phone);
+        button = (Button) findViewById(R.id.buttonSignin);
+        result = (EditText) findViewById(R.id.textInputUserPhone);
 
         // add button listener
         button.setOnClickListener(new OnClickListener() {
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 // set dialog_signin.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
 
-                final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+                final EditText codeInput = (EditText) promptsView.findViewById(R.id.textDialogCodeInput);
 
                 // set dialog message
                 alertDialogBuilder
@@ -53,10 +51,11 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Validar",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        // get user input and set it to result
-                                        // edit text
-                                        startActivity(new Intent(MainActivity.this, TokenActivity.class));
-                                        result.setText(userInput.getText());
+                                        if (verifySMScode(codeInput)) {
+                                            Toast.makeText(getApplicationContext(), "Código Incorreto. Insira os 5 Dígitos Recebido por SMS", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            startActivity(new Intent(MainActivity.this, TokenActivity.class));
+                                        }
                                     }
                                 })
                         .setNegativeButton("Reenviar",
@@ -66,13 +65,31 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
 
-                // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
+                if (verifyPhoneNumber(result)) {
+                    Toast.makeText(getApplicationContext(), "Celular Inválido. Insira no Mínimo 9 Dígitos.", Toast.LENGTH_LONG).show();
 
-                // show it
-                alertDialog.show();
+                } else {
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
 
+                    // show it
+                    alertDialog.show();
+                }
             }
         });
+    }
+
+    private boolean verifySMScode(EditText codeInput) {
+        String SMSCode = codeInput.getText().toString().trim();
+        if (SMSCode.length() < 5 || SMSCode.length() > 5)
+            return true;
+        return false;
+    }
+
+    private boolean verifyPhoneNumber(EditText phoneInput) {
+        String phone = phoneInput.getText().toString().trim();
+        if (phone.length() < 9 || phone.length() > 13)
+            return true;
+        return false;
     }
 }

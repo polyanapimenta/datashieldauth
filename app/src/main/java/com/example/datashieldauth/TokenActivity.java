@@ -2,6 +2,7 @@ package com.example.datashieldauth;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -21,7 +22,7 @@ public class TokenActivity extends AppCompatActivity {
 
         alert.setPositiveButton("ENCERRAR", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //Your action here
+                appExit();
             }
         });
 
@@ -33,5 +34,13 @@ public class TokenActivity extends AppCompatActivity {
                 });
 
         alert.show();
+    }
+
+    public void appExit () {
+        this.finish();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
